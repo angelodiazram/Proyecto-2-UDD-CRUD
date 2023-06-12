@@ -172,7 +172,9 @@
 #main-container #form-container #list .list-container{
     display: flex;
     flex-direction: row;
+    flex-wrap: wrap;
     justify-content: space-between;
+    width: 100%;
 }
 
 #main-container #form-container #list .text-container{
