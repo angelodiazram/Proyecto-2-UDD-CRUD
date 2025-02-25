@@ -24,12 +24,11 @@ const saveItem = () => {
 }
 
 const createSave = () => {
-    listItems.innerHTML = 'Aun no se han creado elementos';
-
     arrayItems = JSON.parse(localStorage.getItem('tecnology'));
 
-    if(arrayItems === null){
+    if(arrayItems === null || arrayItems.length === 0){
         arrayItems = [];
+        listItems.innerHTML = 'Aun no se han creado elementos';
     }else{
 
         listItems.innerHTML = '';
@@ -89,4 +88,17 @@ listItems.addEventListener('mousedown', (e) => {
     e.preventDefault();
 
     console.log(e);
+});
+
+const deleteItem = (tecnologyName) => {
+    arrayItems = arrayItems.filter(item => item.tecnology !== tecnologyName);
+    saveItem();
+    createSave();
+}
+
+listItems.addEventListener('click', (e) => {
+    if (e.target.closest('.delete')) {
+        let tecnologyName = e.target.closest('.list-container').querySelector('.item-1').textContent;
+        deleteItem(tecnologyName);
+    }
 });
