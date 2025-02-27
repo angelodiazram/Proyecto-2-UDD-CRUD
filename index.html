@@ -1,58 +1,102 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <!--Fuente Josefin Sans de Google Fonts-->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Josefin+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap"
+      rel="stylesheet"
+    />
     <!-- iconos boton update y delete-->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200"
+    />
 
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css" />
     <title>CRUD - Angelo Díaz</title>
-</head>
-<body>
+  </head>
+  <body>
     <header id="header">
-        <h2>CRUD - HTML, CSS y Javascript</h2>
-        <img id="icon" src="./assets/imgs/crud-icon.png" alt="logo">
+      <h2>CRUD - HTML, CSS y Javascript</h2>
+      <img id="icon" src="./assets/imgs/crud-icon.png" alt="logo" />
     </header>
     <main id="main-container">
-        <article id="article-1">
-            <h1>Listado de tecnologias aprendidas</h1>
-            <p id="p1">La siguiente aplicación CRUD esta hecha en un formato de lista o tareas, donde puedes agregar las tecnologías que ya sabes o conoces y detallar que aspectos de dicha tecnologia te gustaria reforzar o aprender mas profundamente</p>
-            <p id="p2">Tendrás las funcionalidades de <span>CREAR, LEER, ACTUALIZAR Y BORRAR</span> cada item que agregues en la aplicación</p>
-        </article>
-        <!-- SECCIÓN DE FORMULARIO-->
-        <section id="form-container">
-            <form id="form" action="">
-                <label for="tecnology">1. Tecnologias que sepas o conozcas</label>
-                <input type="text" name="tecnology" id="input-tecnology">
+      <article id="article-1">
+        <h1>Listado de tecnologias aprendidas</h1>
+        <p id="p1">
+          La siguiente aplicación CRUD esta hecha en un formato de lista o
+          tareas, donde puedes agregar las tecnologías que ya sabes o conoces y
+          detallar que aspectos de dicha tecnologia te gustaria reforzar o
+          aprender mas profundamente
+        </p>
+        <p id="p2">
+          Tendrás las funcionalidades de
+          <span>CREAR, LEER, ACTUALIZAR Y BORRAR</span> cada item que agregues
+          en la aplicación
+        </p>
+      </article>
+      <!-- SECCIÓN DE FORMULARIO-->
+      <section id="form-container">
+        <form id="form" action="">
+          <label for="tecnology">1. Tecnologias que sepas o conozcas</label>
+          <input type="text" name="tecnology" id="input-tecnology" />
 
-                <label for="description">2. ¿Que te gustaria reforzar o profundizar?</label>
-                <textarea name="description" id="description" cols="30" rows="5"></textarea>
+          <label for="description"
+            >2. ¿Que te gustaria reforzar o profundizar?</label
+          >
+          <textarea
+            name="description"
+            id="description"
+            cols="30"
+            rows="5"
+          ></textarea>
 
-                <button type="submit" id="create">AGREGAR</button>
-            </form>
-            <!-- ITEMS AÑADIDOS-->
-            <div id="list">
-                <div class="list-container">
-                    <div class="text-container">
-                        <span class="item-1"></span>
-                        <span class="item-2"></span>
-                    </div>
-                    <div class="btn-container">
-                        <button class="btn-list update"><span class="material-symbols-outlined">edit</span></button>
-                        <button class="btn-list delete"><span class="material-symbols-outlined">delete</span></button>
-                    </div>    
-                </div>
+          <button type="submit" id="create">AGREGAR</button>
+        </form>
+        <!-- ITEMS AÑADIDOS-->
+        <div id="list">
+          <div class="list-container">
+            <div class="text-container">
+              <span class="item-1"></span>
+              <span class="item-2"></span>
             </div>
-        </section>
+            <div class="btn-container">
+              <button class="btn-list update">
+                <span class="material-symbols-outlined">edit</span>
+              </button>
+              <button class="btn-list delete">
+                <span class="material-symbols-outlined">delete</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </section>
     </main>
+
+    <!-- Modal -->
+    <div id="editModal" class="modal">
+      <div class="modal-content">
+        <h2 class="tituloEditar">Editar <span class="title-tecnology"></span></h2>
+        <form id="editForm">
+          <label for="editDescription">¿Que te gustaria reforzar o profundizar?:</label>
+          <textarea id="editDescription" name="editDescription"></textarea>
+          <div class="btn-container">
+            <button type="button" id="cancelBtn">Cancelar</button>
+            <button type="submit" id="saveBtn">Aceptar</button>
+          </div>
+        </form>
+      </div>
+    </div>
     <!-- <script src="./index.js"></script> -->
     <script src="index.js"></script>
-</body>
+  </body>
 </html>
