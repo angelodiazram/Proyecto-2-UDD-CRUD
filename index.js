@@ -1,26 +1,47 @@
 //? VARIABLES GLOBALES:
 
-const form      = document.querySelector('#form');
-const listItems = document.querySelector('.list-container');
-let arrayItems  = [];
+const form      = document.querySelector('#form'); //formulario
+const listItems = document.querySelector('.list-container'); //div contenedor de items
+let arrayItems  = []; // arreglo que contendrá objetos con los datos ingresados
 
 //? FUNCIONES:
 
 const createItem = (tecnology, description) => {
+
+    /*
+    Esta función crea un objeto con los datos ingresados por medio del formulario
+    HTML
+    */
     
     let item = {
         tecnology: tecnology,
         description: description
     }
 
-    arrayItems.push(item);
+    arrayItems.push(item); // se agrega el objeto creado al array "arrayItems"
 
-    return item;
+    return item; // se retorna el nuevo objeto "item"
 }
 
 const saveItem = () => {
-    localStorage.setItem('tecnology', JSON.stringify(arrayItems));
+    /*
+    El localStorage almacena datos en "clave/valor" pero primero cualquier
+    dato que se vaya a almacenar en el localStorage se debe transformar en un 
+    string
+    */
+
+    localStorage.setItem('tecnology', JSON.stringify(arrayItems)); 
+        /*
+        setItem recibe dos argumento:
+        1. el nombre de la clave almacenada
+        2. el valor de esa clave en diferentes tipos de datos transformados en string
+        */
+
     createSave();
+        /*
+        llamado a la función que crea en el DOM items con los datos guardados
+        en el localStorage
+        */ 
 }
 
 const createSave = () => {
@@ -48,18 +69,6 @@ const createSave = () => {
     };
 }
 
-/*
-* PRUEBA DE FUNCIONAMIENTO CREANDO DOS ITEMS 
-
-let typescript = createItem('Typescript', 'me falta mucho por aprender');
-let react = createItem('React', 'Me gusta mucho React');
-
-console.log(typescript);
-console.log(react);
-
-console.log(arrayItems);
-*/
-
 //? EVENTLISTENERS:
 
 /*
@@ -72,9 +81,11 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     //
     let inputValue = document.querySelector('#input-tecnology').value;
+        // capturación del primer campo de texto
     let textareaValue = document.getElementById('description').value;
-
+        // capturación del segundo campo de texto
     createItem(inputValue, textareaValue);
+
     saveItem();
 
     form.reset();
@@ -82,9 +93,16 @@ form.addEventListener('submit', (e) => {
     console.log(arrayItems);
 });
 
+
+/*
+El metodo "DOMContentLoaded" se ejecuta en el momento en el que 
+se carga el DOM por lo que se puede usar para ejecutar alguna función
+al inicio de la carga de la App
+*/
 document.addEventListener('DOMContentLoaded', createSave);
 
-listItems.addEventListener('mousedown', (e) => {
+    listItems.addEventListener('mousedown', (e) => {
+        
     e.preventDefault();
 
     console.log(e);
@@ -96,9 +114,10 @@ const deleteItem = (tecnologyName) => {
     createSave();
 }
 
-listItems.addEventListener('click', (e) => {
-    if (e.target.closest('.delete')) {
-        let tecnologyName = e.target.closest('.list-container').querySelector('.item-1').textContent;
+listItems.addEventListener('click', ({target}) => {
+
+    if (target.closest('.delete')) {
+        let tecnologyName = target.closest('.list-container').querySelector('.item-1').textContent;
         deleteItem(tecnologyName);
-    }
+    }
 });
