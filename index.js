@@ -1,9 +1,11 @@
 //? VARIABLES GLOBALES:
 
-const form      = document.querySelector('#form');
-const listItems = document.querySelector('.list-container');
-let arrayItems  = [];
-const editForm = document.getElementById('editModal');
+const form                = document.querySelector('#form');
+const listItems           = document.querySelector('.list-container');
+const inputTecnology      = document.querySelector('#input-tecnology');
+const textareaDescription = document.getElementById('description');
+let arrayItems            = [];
+let currentItemIndex      = null;
 
 //? FUNCIONES:
 
@@ -13,7 +15,7 @@ const createItem = (tecnology, description) => {
     Esta función crea un objeto con los datos ingresados por medio del formulario
     HTML
     */
-    
+
     let item = {
         tecnology: tecnology,
         description: description
@@ -23,6 +25,7 @@ const createItem = (tecnology, description) => {
 
     return item; // se retorna el nuevo objeto "item"
 }
+
 const saveItem = () => {
     /*
     El localStorage almacena datos en "clave/valor" pero primero cualquier
@@ -30,7 +33,7 @@ const saveItem = () => {
     string
     */
 
-    localStorage.setItem('tecnology', JSON.stringify(arrayItems)); 
+    localStorage.setItem('tecnology', JSON.stringify(arrayItems));
         /*
         setItem recibe dos argumento:
         1. el nombre de la clave almacenada
@@ -41,43 +44,56 @@ const saveItem = () => {
         /*
         llamado a la función que crea en el DOM items con los datos guardados
         en el localStorage
-        */ 
+        */
 }
-const createSave = () => {
-    arrayItems = JSON.parse(localStorage.getItem('tecnology'));
 
-    if(arrayItems === null || arrayItems.length === 0){
+const createSave = () => {
+
+    arrayItems = JSON.parse(localStorage.getItem('tecnology'));
+        /*
+        tomamos los datos almacenados en el localStorage y los 
+        almacenamos en la variable arrayItems
+        */
+
+    if (arrayItems.length === 0) {
         arrayItems = [];
         listItems.innerHTML = 'Aun no se han creado elementos';
-    }else{
+    } else {
 
         listItems.innerHTML = '';
-        arrayItems.forEach(element => { 
+        arrayItems.forEach(element => {
             listItems.innerHTML += `
-        <div class="list-container">
-            <div class="text-container">
-                <span class="item-1">${element.tecnology}</span>
-                <span class="item-2">${element.description}</span>
-            </div>
-            <div class="btn-container">
-                <button class="btn-list update" title="Editar"><span class="material-symbols-outlined">edit</span></button>
-                <button class="btn-list delete" title="eliminar"><span class="material-symbols-outlined">delete</span></button>
-            </div>    
-        </div>`
+                <div class="text-container">
+                    <span class="item-1">${element.tecnology}</span>
+                    <span class="item-2">${element.description}</span>
+                </div>
+                <div class="btn-container">
+                    <button class="btn-list update" title="Editar"><span class="material-symbols-outlined">edit</span></button>
+                    <button class="btn-list delete" title="eliminar"><span class="material-symbols-outlined">delete</span></button>
+                </div>`
         });
     };
 }
+
+
+//! Función para eliminar elementos en el listado 
 const deleteItem = (tecnologyName) => {
+
     arrayItems = arrayItems.filter(item => item.tecnology !== tecnologyName);
+        /*
+        al usar el filter() recorremos el arreglo con los datos gaurdados
+        y se devolvera un nuevo arreglo con los elemntos que cumplan la condición.
+        En este caso estamos devilviendo un nuevo arreglo excluyendo el elemento
+        tecnologyName que capturamos en el listener del botón borrar. 
+        */
+
     saveItem();
     createSave();
 }
-const updateItem = (tecnologyName) => {
-    currentItem = arrayItems.find(item => item.tecnology === tecnologyName);
-    document.querySelector('.title-tecnology').textContent = currentItem.tecnology;
-    document.getElementById('editDescription').value = currentItem.description;
-    editModal.style.display = 'block';
-}
+
+const updateItem = () => {
+                                   
+};
 
 /*
 * PRUEBA DE FUNCIONAMIENTO CREANDO DOS ITEMS 
@@ -90,19 +106,23 @@ let react = createItem('React', 'Me gusta mucho React');
 
 // Evento que se ejecuta cuando el documento ha sido cargado
 document.addEventListener('DOMContentLoaded', createSave);
+
 /*
 capturamos el evento submit del formulario y ejecutamos una
 función cuando suceda el submit
 */
-// función para crear los datos
+
+//! EVENTO para tomar los valores del formulario y guardarlos
 form.addEventListener('submit', (e) => {
-    // metodo para que no refresque la aplicación
     e.preventDefault();
-    //
+        // metodo para que no refresque la aplicación
+
     let inputValue = document.querySelector('#input-tecnology').value;
         // capturación del primer campo de texto
+
     let textareaValue = document.getElementById('description').value;
         // capturación del segundo campo de texto
+
     createItem(inputValue, textareaValue);
 
     saveItem();
@@ -111,70 +131,39 @@ form.addEventListener('submit', (e) => {
 });
 
 
-/*
-El metodo "DOMContentLoaded" se ejecuta en el momento en el que 
-se carga el DOM por lo que se puede usar para ejecutar alguna función
-al inicio de la carga de la App
-*/
-document.addEventListener('DOMContentLoaded', createSave);
+listItems.addEventListener('click', ({ target }) => {
+    /*
+    usamos un listener de tipo click en el listItems para donde se encuentra el
+    botón eliminar clickeado
+    */
 
-    listItems.addEventListener('mousedown', (e) => {
-        
-// Función para aceptar guardar los cambios
-editForm.addEventListener('submit', (e) => {
-    e.preventDefault();
-    currentItem.description = document.getElementById('editDescription').value;
-    saveItem();
-    closeModalFunc();
-});
+    if (target.closest('.delete')) { //! "si se clickea un botón con la clase .delete se ejecuta lo de abajo"
+    
 
-    console.log(e);
-});
-
-
-listItems.addEventListener('click', ({target}) => {
-
-    if (target.closest('.delete')) {
         let tecnologyName = target.closest('.list-container').querySelector('.item-1').textContent;
+            /*
+            ! "target.closest('.list-container')" seria como nuestro "document"
+            usando el metodo closest() se pueden encontrar los elementos HTML
+            recorriendo los nodos hasta llegar al tag especificado, en este caso es
+            muy útil ya que los renderizados no tienen un ID expecifico para poder identificarlos
+            por lo que usamos el elemento click para llegar alli e identificamos el elemento por
+            el "item-1" leyendo su contenido con el metodo textContent
+            */
+
+        console.log(`Esta es la referencia encontrada por el metodo closest(): ${tecnologyName}`)
+
         deleteItem(tecnologyName);
+            /*
+            ejecutamos la función para borrar entregandole la referencia de texto 
+            encontrada.
+            */
+    } else if (target.closest('.update')) {
+        console.log('se ha presionado el botón de "update"');
     }
-});
-// Evento para eliminar o editar un item de la lista
-listItems.addEventListener('click', (e) => {
-
-    if (e.target.closest('.delete')) {
-        let tecnologyName = e.target.closest('.list-container').querySelector('.item-1').textContent;
-        deleteItem(tecnologyName);
-    }
-
-    if (e.target.closest('.update')) {
-        let tecnologyName = e.target.closest('.list-container').querySelector('.item-1').textContent;
-        updateItem(tecnologyName);
-    }
+    
+    
 });
 
-
-// listItems.addEventListener('mousedown', (e) => {
-//     e.preventDefault();
-// });
-
-
-
-
-
-
-//? MODAL:
-// Funcion para cerrar el modal de editar (por cancelar o aceptar)
-const closeModalFunc = () => {
-    editModal.style.display = 'none';
-}
-
-// Cerrar el modal con el boton de cerrar
-document.getElementById('cancelBtn').addEventListener('click', () => {
-
-    closeModalFunc();
-
-});
 
 
 

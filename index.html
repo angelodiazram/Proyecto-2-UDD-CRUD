@@ -29,30 +29,30 @@
       <h2>CRUD - HTML, CSS y Javascript</h2>
       <img id="icon" src="./assets/imgs/crud-icon.png" alt="logo" />
     </header>
+    
     <main id="main-container">
       <article id="article-1">
         <h1>Listado de tecnologias aprendidas</h1>
         <p id="p1">
-          La siguiente aplicación CRUD esta hecha en un formato de lista o
-          tareas, donde puedes agregar las tecnologías que ya sabes o conoces y
+          La siguiente aplicación CRUD esta hecha en un formato de lista de
+          tareas usando el localStorage para que los datos ingresados sean persistentes.
+          Puedes agregar las tecnologías que ya sabes o conoces y
           detallar que aspectos de dicha tecnologia te gustaria reforzar o
           aprender mas profundamente
         </p>
         <p id="p2">
           Tendrás las funcionalidades de
-          <span>CREAR, LEER, ACTUALIZAR Y BORRAR</span> cada item que agregues
-          en la aplicación
+          <span>CREAR, LISTAR, ACTUALIZAR Y BORRAR</span> 
+          cada item que agregues en la aplicación
         </p>
       </article>
       <!-- SECCIÓN DE FORMULARIO-->
       <section id="form-container">
-        <form id="form" action="">
+        <form id="form" action="#">
           <label for="tecnology">1. Tecnologias que sepas o conozcas</label>
           <input type="text" name="tecnology" id="input-tecnology" />
 
-          <label for="description"
-            >2. ¿Que te gustaria reforzar o profundizar?</label
-          >
+          <label for="description">2. ¿Que te gustaria reforzar o profundizar?</label>
           <textarea
             name="description"
             id="description"
@@ -65,38 +65,12 @@
         <!-- ITEMS AÑADIDOS-->
         <div id="list">
           <div class="list-container">
-            <div class="text-container">
-              <span class="item-1"></span>
-              <span class="item-2"></span>
-            </div>
-            <div class="btn-container">
-              <button class="btn-list update">
-                <span class="material-symbols-outlined">edit</span>
-              </button>
-              <button class="btn-list delete">
-                <span class="material-symbols-outlined">delete</span>
-              </button>
-            </div>
+            <!-- AQUI SE RENDERIZAN LOS ITEM CREADOS -->
           </div>
         </div>
       </section>
     </main>
-
-    <!-- Modal -->
-    <div id="editModal" class="modal">
-      <div class="modal-content">
-        <h2 class="tituloEditar">Editar <span class="title-tecnology"></span></h2>
-        <form id="editForm">
-          <label for="editDescription">¿Que te gustaria reforzar o profundizar?:</label>
-          <textarea id="editDescription" name="editDescription"></textarea>
-          <div class="btn-container">
-            <button type="button" id="cancelBtn">Cancelar</button>
-            <button type="submit" id="saveBtn">Aceptar</button>
-          </div>
-        </form>
-      </div>
-    </div>
-    <!-- <script src="./index.js"></script> -->
+    
     <script src="index.js"></script>
   </body>
 </html>
