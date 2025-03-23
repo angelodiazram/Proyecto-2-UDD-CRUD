@@ -61,15 +61,19 @@ const createSave = () => {
     } else {
 
         listItems.innerHTML = '';
-        arrayItems.forEach(element => {
+        arrayItems.forEach((element, index) => {
             listItems.innerHTML += `
                 <div class="text-container">
                     <span class="item-1">${element.tecnology}</span>
                     <span class="item-2">${element.description}</span>
                 </div>
                 <div class="btn-container">
-                    <button class="btn-list update" title="Editar"><span class="material-symbols-outlined">edit</span></button>
-                    <button class="btn-list delete" title="eliminar"><span class="material-symbols-outlined">delete</span></button>
+                    <button class="btn-list update" data-index="${index}" title="Editar">
+                        <span class="material-symbols-outlined">edit</span>
+                    </button>
+                    <button class="btn-list delete" data-index="${index}"title="eliminar">
+                        <span class="material-symbols-outlined">delete</span>
+                    </button>
                 </div>`
         });
     };
@@ -77,22 +81,31 @@ const createSave = () => {
 
 
 //! Función para eliminar elementos en el listado 
-const deleteItem = (tecnologyName) => {
+const deleteItem = (index) => {
 
-    arrayItems = arrayItems.filter(item => item.tecnology !== tecnologyName);
-        /*
-        al usar el filter() recorremos el arreglo con los datos gaurdados
-        y se devolvera un nuevo arreglo con los elemntos que cumplan la condición.
-        En este caso estamos devilviendo un nuevo arreglo excluyendo el elemento
-        tecnologyName que capturamos en el listener del botón borrar. 
-        */
+    arrayItems = arrayItems.splice(index, 1);
+
+    // arrayItems = arrayItems.filter(item => item.tecnology !== tecnologyName);
+    //     /*
+    //     al usar el filter() recorremos el arreglo con los datos gaurdados
+    //     y se devolvera un nuevo arreglo con los elemntos que cumplan la condición.
+    //     En este caso estamos devilviendo un nuevo arreglo excluyendo el elemento
+    //     tecnologyName que capturamos en el listener del botón borrar. 
+    //     */
 
     saveItem();
     createSave();
 }
 
 const updateItem = () => {
-                                   
+    
+    if (currentItemIndex !== null) {
+        arrayItems[currentItemIndex].tecnology = inputTecnology.value;
+        arrayItems[currentItemIndex].description = textareaDescription.value;
+        saveItem();
+        currentItemIndex = null;
+        form.reset();
+    }                            
 };
 
 /*
@@ -123,11 +136,21 @@ form.addEventListener('submit', (e) => {
     let textareaValue = document.getElementById('description').value;
         // capturación del segundo campo de texto
 
-    createItem(inputValue, textareaValue);
+    // createItem(inputValue, textareaValue);
 
+    // saveItem();
+
+    // form.reset();
+
+    if (currentItemIndex === null) {
+        createItem(inputValue, textareaValue);
+    } else {
+        updateItem();
+    }
     saveItem();
 
     form.reset();
+    
 });
 
 
@@ -140,7 +163,7 @@ listItems.addEventListener('click', ({ target }) => {
     if (target.closest('.delete')) { //! "si se clickea un botón con la clase .delete se ejecuta lo de abajo"
     
 
-        let tecnologyName = target.closest('.list-container').querySelector('.item-1').textContent;
+        // let tecnologyName = target.closest('.list-container').querySelector('.item-1').textContent;
             /*
             ! "target.closest('.list-container')" seria como nuestro "document"
             usando el metodo closest() se pueden encontrar los elementos HTML
@@ -149,16 +172,23 @@ listItems.addEventListener('click', ({ target }) => {
             por lo que usamos el elemento click para llegar alli e identificamos el elemento por
             el "item-1" leyendo su contenido con el metodo textContent
             */
-
+        let index = target.closest('.btn-list').dataset.index;
+        
         console.log(`Esta es la referencia encontrada por el metodo closest(): ${tecnologyName}`)
 
-        deleteItem(tecnologyName);
+        deleteItem(index)
+        // deleteItem(tecnologyName);
             /*
             ejecutamos la función para borrar entregandole la referencia de texto 
             encontrada.
             */
     } else if (target.closest('.update')) {
         console.log('se ha presionado el botón de "update"');
+
+        let index = target.closest('.btn-list').dataset.index;
+        currentItemIndex = index;
+        inputTecnology.value = arrayItems[index].tecnology;
+        textareaDescription.value = arrayItems[index].description;
     }
     
     
